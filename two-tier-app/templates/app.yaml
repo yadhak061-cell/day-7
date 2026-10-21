@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: node-web-app
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+        image: "node:18-alpine"
+        command: ["node", "-e", "require('http').createServer((req,res)=>{res.end('Hello from Node.js App!\n')}).listen(80)"]
         ports:
         - containerPort: 80
         env:
