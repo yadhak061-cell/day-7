@@ -1,9 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: two-tier-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: node-ingress
 spec:
   ingressClassName: nginx
   rules:
@@ -16,6 +14,18 @@ spec:
             name: node-web-app-service
             port:
               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
       - path: /nginx
         pathType: Prefix
         backend:

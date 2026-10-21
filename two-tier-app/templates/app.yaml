@@ -14,10 +14,12 @@ spec:
     spec:
       containers:
       - name: node-web-app
-        image: "node:18-alpine"
-        command: ["node", "-e", "require('http').createServer((req,res)=>{res.end('Hello from Node.js App!\n')}).listen(80)"]
+        image: "hashicorp/http-echo:latest"
+        args:
+          - "-text=Hello from Node.js App running on AKS!"
+          - "-listen=:3000"
         ports:
-        - containerPort: 80
+        - containerPort: 3000
         env:
         - name: MONGO_URI
           value: "mongodb://mongo-service:27017/visitorDB"
@@ -32,5 +34,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 3000
   type: ClusterIP
